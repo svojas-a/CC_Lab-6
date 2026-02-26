@@ -5,10 +5,12 @@ pipeline {
 
         stage('Build Backend Image') {
             steps {
-                sh '''
-                docker rmi -f backend-app || true
-                docker build -t backend-app backend
-                '''
+                dir('.') {
+                    sh '''
+                    docker rmi -f backend-app || true
+                    docker build -t backend-app ./backend
+                    '''
+                }
             }
         }
 
@@ -24,11 +26,13 @@ pipeline {
 
         stage('Deploy NGINX Load Balancer') {
             steps {
-                sh '''
-                docker rm -f nginx-lb || true
-                docker build -t nginx-lb nginx
-                docker run -d -p 80:80 --name nginx-lb nginx-lb
-                '''
+                dir('.') {
+                    sh '''
+                    docker rm -f nginx-lb || true
+                    docker build -t nginx-lb ./nginx
+                    docker run -d -p 80:80 --name nginx-lb nginx-lb
+                    '''
+                }
             }
         }
     }
