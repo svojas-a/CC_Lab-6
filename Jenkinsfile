@@ -7,7 +7,7 @@ pipeline {
             steps {
                 sh '''
                 docker rmi -f backend-app || true
-                docker build -t backend-app CC_Lab-6/backend
+                docker build -t backend-app backend
                 '''
             }
         }
@@ -26,7 +26,7 @@ pipeline {
             steps {
                 sh '''
                 docker rm -f nginx-lb || true
-                docker build -t nginx-lb CC_Lab-6/nginx
+                docker build -t nginx-lb nginx
                 docker run -d -p 80:80 --name nginx-lb nginx-lb
                 '''
             }
